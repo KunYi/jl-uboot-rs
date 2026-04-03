@@ -45,41 +45,43 @@ Current binaries:
     - `--yes`
     - `--progress`
     - `--chunk-size <usize>`
-- `find`
-  - default behavior matches upstream Python:
-    - enumerate platform candidates
-    - `INQUIRY`
-    - keep `UBOOT/UDISK/DEVICE`
-  - candidate metadata may include:
-    - `usb_vid`
-    - `usb_pid`
-    - `note`
-  - optional:
-    - `find --probe`
-    - `find --vendor JIELI`
-  - `probe --device <device-selector>`
-  - `read-id --device <device-selector>`
-  - `online-device --device <device-selector>`
-  - `usb-buffer-size --device <device-selector>`
-  - `version --device <device-selector>`
-  - `maskrom-id --device <device-selector>`
-  - `read-status --device <device-selector>`
-  - `flash-crc16 --device <device-selector> --address <u32> --length <usize>`
-  - `flash-crc16-raw --device <device-selector> --address <u32> --length <usize>`
-  - `set-flash-cmds --device <device-selector> --cmds <8 values>`
-  - `chip-key --device <device-selector> [--arg <u32>] [--raw]`
-  - `write-chip-key --device <device-selector> --key <u32> [--vpp <u32>]`
-  - `flash-select --device <device-selector> --kind {code,data}`
-  - `flash-read --device <device-selector> --address <u32> --length <usize> --output <file>`
-  - `flash-write --device <device-selector> --address <u32> --input <file>`
-  - `flash-erase-sector --device <device-selector> --address <u32>`
-  - `flash-erase-block --device <device-selector> --address <u32>`
-  - `flash-erase-chip --device <device-selector>`
-  - `mem-read --device <device-selector> --address <u32> --length <usize> --output <file>`
-  - `mem-write --device <device-selector> --address <u32> --input <file>`
-  - `mem-write-rxgp --device <device-selector> --address <u32> --input <file>`
-  - `jump --device <device-selector> --address <u32> [--arg <u32>]`
-  - `run-app --device <device-selector> [--arg <u32>]`
+  - subcommands:
+    - `find`
+      - default behavior matches upstream Python:
+        - enumerate platform candidates
+        - `INQUIRY`
+        - keep `UBOOT/UDISK/DEVICE`
+      - candidate metadata may include:
+        - `selector`
+        - `usb_vid`
+        - `usb_pid`
+        - `note`
+      - optional:
+        - `find --probe`
+        - `find --vendor JIELI`
+    - `probe --device <device-selector>`
+    - `read-id --device <device-selector>`
+    - `online-device --device <device-selector>`
+    - `usb-buffer-size --device <device-selector>`
+    - `version --device <device-selector>`
+    - `maskrom-id --device <device-selector>`
+    - `read-status --device <device-selector>`
+    - `flash-crc16 --device <device-selector> --address <u32> --length <usize>`
+    - `flash-crc16-raw --device <device-selector> --address <u32> --length <usize>`
+    - `set-flash-cmds --device <device-selector> --cmds <8 values>`
+    - `chip-key --device <device-selector> [--arg <u32>] [--raw]`
+    - `write-chip-key --device <device-selector> --key <u32> [--vpp <u32>]`
+    - `flash-select --device <device-selector> --kind {code,data}`
+    - `flash-read --device <device-selector> --address <u32> --length <usize> --output <file>`
+    - `flash-write --device <device-selector> --address <u32> --input <file>`
+    - `flash-erase-sector --device <device-selector> --address <u32>`
+    - `flash-erase-block --device <device-selector> --address <u32>`
+    - `flash-erase-chip --device <device-selector>`
+    - `mem-read --device <device-selector> --address <u32> --length <usize> --output <file>`
+    - `mem-write --device <device-selector> --address <u32> --input <file>`
+    - `mem-write-rxgp --device <device-selector> --address <u32> --input <file>`
+    - `jump --device <device-selector> --address <u32> [--arg <u32>]`
+    - `run-app --device <device-selector> [--arg <u32>]`
 - `jlrunner`
   - global options:
     - `--protocol {loaderv2,loaderv1,uboot1}`

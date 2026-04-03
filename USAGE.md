@@ -3,6 +3,13 @@
 This workspace is an unofficial host-side force download tool for JieLi
 MSC/UBOOT-style download-mode devices.
 
+There are only two binaries:
+
+- `jluboot`
+- `jlrunner`
+
+`find` is a `jluboot` subcommand, not a separate tool.
+
 Linux USB MSC targets usually show up in two forms:
 
 - `/dev/sdX` or `/dev/sdX1`
