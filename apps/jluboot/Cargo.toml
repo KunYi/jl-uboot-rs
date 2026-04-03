@@ -1,0 +1,17 @@
+[package]
+name = "jluboot"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+clap.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+jl-sg = { path = "../../crates/jl-sg" }
+jl-uboot = { path = "../../crates/jl-uboot" }
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+tempfile = "3"

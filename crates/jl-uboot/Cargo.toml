@@ -1,0 +1,11 @@
+[package]
+name = "jl-uboot"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+jl-sg = { path = "../jl-sg" }
+jl-msc = { path = "../jl-msc" }
+jl-device-db = { path = "../jl-device-db" }
