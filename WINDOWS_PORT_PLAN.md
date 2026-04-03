@@ -150,15 +150,22 @@ The transport crate should isolate all Windows-specific unsafe/FFI code.
 
 ## Recommended implementation order
 
-1. Replace the current `Unsupported` skeleton in `jl-sg::windows`
-2. Implement `inquiry()`
-3. Implement one generic `exec()` path
-4. Verify `probe` against a Windows-visible MSC target discovered via `SetupAPI`
-5. Verify:
+Completed structurally:
+
+1. `jl-sg::windows` exists
+2. `inquiry()` and generic `exec()` path exist
+3. `SetupAPI`-based candidate enumeration exists
+4. visible-selector correlation path exists
+
+Next implementation/validation order:
+
+1. Verify `probe` against a Windows-visible MSC target discovered via `SetupAPI`
+2. Verify:
    - `read-id`
    - `flash-read`
    - `mem-read`
-6. Only then add automatic enumeration
+3. Validate automatic detection and visible-selector correlation on real hardware
+4. Tune response handling, sense-data behavior, and selector edge cases based on observed devices
 
 ## Testing before hardware
 

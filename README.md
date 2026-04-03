@@ -11,7 +11,6 @@ See also:
 - [`USAGE.md`](./USAGE.md)
 - [`ROADMAP.md`](./ROADMAP.md)
 - [`RELEASE_NOTES_DRAFT.md`](./RELEASE_NOTES_DRAFT.md)
-- [`REPOSITORY_SPLIT_CHECKLIST.md`](./REPOSITORY_SPLIT_CHECKLIST.md)
 - [`PROTOCOL_COVERAGE.md`](./PROTOCOL_COVERAGE.md)
 - [`TESTING_WITHOUT_HARDWARE.md`](./TESTING_WITHOUT_HARDWARE.md)
 - [`NO_HARDWARE_TEST_MATRIX.md`](./NO_HARDWARE_TEST_MATRIX.md)
@@ -112,7 +111,7 @@ Current CLI behavior:
   - the tool will try to find exactly one matching JieLi download-mode target
   - if none or multiple matches are found, the command fails and asks for `--device`
 
-This workspace is intentionally kept separate from the SDK build system so it can be split into its own repository later.
+This workspace is intentionally kept separate from the SDK build system and is maintained as its own standalone repository.
 
 Repository metadata now included for standalone use:
 
@@ -120,7 +119,6 @@ Repository metadata now included for standalone use:
 - `ATTRIBUTION.md`
 - `.gitignore`
 - GitHub Actions CI
-- split checklist for standalone-repo preparation
 
 Project status and validation notes are tracked separately in:
 
