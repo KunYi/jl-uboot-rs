@@ -7,6 +7,7 @@ See also:
 - [`LICENSE`](./LICENSE)
 - [`ATTRIBUTION.md`](./ATTRIBUTION.md)
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- [`PROJECT_STATUS.md`](./PROJECT_STATUS.md)
 - [`USAGE.md`](./USAGE.md)
 - [`ROADMAP.md`](./ROADMAP.md)
 - [`RELEASE_NOTES_DRAFT.md`](./RELEASE_NOTES_DRAFT.md)
@@ -121,44 +122,11 @@ Repository metadata now included for standalone use:
 - GitHub Actions CI
 - split checklist for standalone-repo preparation
 
-Current status:
+Project status and validation notes are tracked separately in:
 
-- primary command coverage is implemented
-- chunked flash/memory transfer path is implemented for loader tolerance and large payloads
-- JSON output is implemented for query/action commands that are useful in automation
-- destructive operations require `--yes`
-- progress output is available on stderr with `--progress`
-- protocol-layer mock tests cover:
-  - `LoaderV2`
-  - `LoaderV1`
-  - `UBOOT1`
-  - command mismatch and transport error propagation
-- CLI integration tests cover:
-  - `--yes`
-  - `--json` error behavior
-  - `find`
-  - local file-not-found and device-not-found exit codes
-- library-level fake-device tests cover successful CLI execution paths for:
-  - `probe --json`
-  - `flash-read --hexdump`
-  - `mem-read --stdout`
-  - `--progress` on `stderr`
-  - transport-failure exit code mapping
-  - `jlrunner` successful RAM load + jump path
-  - `jlrunner` transport-failure exit code mapping
-- static checks pass:
-  - `cargo fmt --check`
-  - `cargo clippy --all-targets --all-features -- -D warnings`
-  - `cargo check`
-  - `cargo test`
-- remaining risk is mainly protocol validation on real hardware, not missing CLI surface
-- `jl-sg` now contains Windows transport/discovery work in addition to Linux support:
-  - `WindowsScsiDevice`
-  - Win32 `CreateFileW` / `DeviceIoControl` / `SCSI_PASS_THROUGH_DIRECT` path is implemented
-  - `SetupAPI`-based USB MSC candidate enumeration and early VID filtering are implemented
-  - Windows discovery now also attempts to back-fill visible selectors such as `E:` / `X:` by correlating volume device numbers to disk-interface candidates
-  - Windows discovery/transport still require real-hardware validation before they should be considered usable
-  - current remaining risk is hardware validation, not missing module structure
+- [`PROJECT_STATUS.md`](./PROJECT_STATUS.md)
+- [`ROADMAP.md`](./ROADMAP.md)
+- [`RELEASE_NOTES_DRAFT.md`](./RELEASE_NOTES_DRAFT.md)
 
 Terminology note:
 
