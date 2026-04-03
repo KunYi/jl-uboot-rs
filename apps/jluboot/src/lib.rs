@@ -800,22 +800,36 @@ fn resolve_explicit_selector(selector: &str) -> Result<ResolvedDevice, BoxError>
 }
 
 fn auto_detect_device(timeout_ms: u32) -> Result<ResolvedDevice, BoxError> {
-    let mut matches = Vec::new();
-    for candidate in candidate_devices()? {
+    select_auto_detect_candidate(candidate_devices()?, |candidate| {
         let mut dev = match open_platform_scsi(&candidate.path, timeout_ms) {
             Ok(dev) => dev,
-            Err(_) => continue,
+            Err(_) => return false,
         };
         let inquiry = match dev.inquiry() {
             Ok(inquiry) => inquiry,
-            Err(_) => continue,
+            Err(_) => return false,
         };
-        if !matches_jieli_candidate(&inquiry) {
-            continue;
-        }
-        matches.push(candidate);
-    }
+        matches_jieli_candidate(&inquiry)
+    })
+}
 
+fn select_auto_detect_candidate<F>(
+    candidates: Vec<ScsiCandidate>,
+    mut is_match: F,
+) -> Result<ResolvedDevice, BoxError>
+where
+    F: FnMut(&ScsiCandidate) -> bool,
+{
+    let matches = candidates
+        .into_iter()
+        .filter(|candidate| is_match(candidate))
+        .collect();
+    resolve_auto_detect_matches(matches)
+}
+
+fn resolve_auto_detect_matches(
+    mut matches: Vec<ScsiCandidate>,
+) -> Result<ResolvedDevice, BoxError> {
     match matches.len() {
         0 => Err(Box::new(TransportError::DeviceNotFound(
             "no matching JieLi download-mode target found".to_string(),
@@ -1956,5 +1970,102 @@ mod tests {
                 .unwrap()
                 .contains("unsupported protocol")
         );
+    }
+
+    #[test]
+    fn selector_for_candidate_prefers_selector_then_note_then_path() {
+        let candidate = ScsiCandidate {
+            selector: Some("E:".into()),
+            path: "/dev/sg3".into(),
+            vid: None,
+            pid: None,
+            note: Some("USBSTOR".into()),
+        };
+        assert_eq!(selector_for_candidate(&candidate), "E:");
+
+        let candidate = ScsiCandidate {
+            selector: None,
+            path: "/dev/sg3".into(),
+            vid: None,
+            pid: None,
+            note: Some("USBSTOR".into()),
+        };
+        assert_eq!(selector_for_candidate(&candidate), "USBSTOR");
+
+        let candidate = ScsiCandidate {
+            selector: None,
+            path: "/dev/sg3".into(),
+            vid: None,
+            pid: None,
+            note: None,
+        };
+        assert_eq!(selector_for_candidate(&candidate), "/dev/sg3");
+    }
+
+    #[test]
+    fn auto_detect_match_resolution_handles_zero_single_and_multiple() {
+        let no_match = resolve_auto_detect_matches(Vec::new()).unwrap_err();
+        assert!(no_match.to_string().contains("no matching JieLi"));
+
+        let single = resolve_auto_detect_matches(vec![ScsiCandidate {
+            selector: Some("E:".into()),
+            path: "/dev/sg3".into(),
+            vid: Some(0x4A4C),
+            pid: Some(0x00F1),
+            note: None,
+        }])
+        .unwrap();
+        assert_eq!(single.selector, "E:");
+        assert_eq!(single.transport_path, "/dev/sg3");
+
+        let multiple = resolve_auto_detect_matches(vec![
+            ScsiCandidate {
+                selector: Some("E:".into()),
+                path: "/dev/sg3".into(),
+                vid: None,
+                pid: None,
+                note: None,
+            },
+            ScsiCandidate {
+                selector: Some("F:".into()),
+                path: "/dev/sg4".into(),
+                vid: None,
+                pid: None,
+                note: None,
+            },
+        ])
+        .unwrap_err();
+        assert!(
+            multiple
+                .to_string()
+                .contains("multiple matching JieLi targets found (2)")
+        );
+    }
+
+    #[test]
+    fn auto_detect_filter_only_keeps_matching_candidates() {
+        let resolved = select_auto_detect_candidate(
+            vec![
+                ScsiCandidate {
+                    selector: Some("not-jieli".into()),
+                    path: "/dev/sg2".into(),
+                    vid: None,
+                    pid: None,
+                    note: None,
+                },
+                ScsiCandidate {
+                    selector: Some("JIELI-DL".into()),
+                    path: "/dev/sg3".into(),
+                    vid: None,
+                    pid: None,
+                    note: None,
+                },
+            ],
+            |candidate| candidate.selector.as_deref() == Some("JIELI-DL"),
+        )
+        .unwrap();
+
+        assert_eq!(resolved.selector, "JIELI-DL");
+        assert_eq!(resolved.transport_path, "/dev/sg3");
     }
 }
