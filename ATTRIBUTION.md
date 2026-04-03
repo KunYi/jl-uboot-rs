@@ -7,14 +7,28 @@ JieLi tooling and reverse engineering.
 
 Primary upstream references:
 
-- `https://github.com/kagaimiq/jl-uboot-tool`
-- `https://github.com/kagaimiq/jl-misctools`
-- `https://github.com/kagaimiq/jielie`
+- [kagaimiq/jl-uboot-tool](https://github.com/kagaimiq/jl-uboot-tool)
+- [kagaimiq/jl-misctools](https://github.com/kagaimiq/jl-misctools)
+- [kagaimiq/jielie](https://github.com/kagaimiq/jielie)
 
 Primary upstream author:
 
 - Andrey Grigoryev
-- GitHub: `https://github.com/kagaimiq`
+- GitHub: [https://github.com/kagaimiq](https://github.com/kagaimiq)
+
+## Upstream license note
+
+As checked on `2026-04-03`:
+
+- `kagaimiq/jl-uboot-tool`
+  - MIT licensed
+- `kagaimiq/jl-misctools`
+  - MIT licensed
+
+The upstream reference repository `kagaimiq/jielie` is still cited as source
+material for protocol notes and reverse-engineering context, but it should be
+treated separately from the two MIT-licensed tooling repositories unless its
+license is confirmed independently.
 
 ## What this workspace reuses conceptually
 
@@ -66,4 +80,3 @@ as:
 - keyfile generation/parsing helpers
 
 remain outside this workspace scope.
-

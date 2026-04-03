@@ -132,6 +132,13 @@ Terminology note:
   the term commonly used by the official tooling ecosystem
 - this repository is still an unofficial implementation
 
+Upstream attribution and license note:
+
+- see [`ATTRIBUTION.md`](./ATTRIBUTION.md)
+- the two primary upstream tooling references currently tracked here,
+  [kagaimiq/jl-uboot-tool](https://github.com/kagaimiq/jl-uboot-tool) and
+  [kagaimiq/jl-misctools](https://github.com/kagaimiq/jl-misctools), are MIT licensed
+
 Exit code policy:
 
 - `0`
